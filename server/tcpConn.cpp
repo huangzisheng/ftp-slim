@@ -13,11 +13,11 @@ int TcpConn::createSocket() {
     if (port <= 1024) {
         cerr << "port must greater than 1024" << endl;
     }
-    srvAddr.sin_port = htonl(port);
+    srvAddr.sin_port = htons(port);
+    cout << "port: " << port << endl;
 
     int bindRet;
     bindRet = bind(listenFd, (struct sockaddr *) &srvAddr, sizeof(srvAddr));
-    cout << "bindRet: " << bindRet << " " << listenFd << endl; 
     if ( bindRet < 0) {
         cerr << "bind error" << endl;
     }
@@ -35,7 +35,7 @@ int TcpConn::tcpAccept(int listenFd) {
     struct sockaddr_in cliAddr;
 
     cliLen = sizeof(cliAddr);
-    if(connFd = accept(listenFd, (sockaddr *) &cliAddr, &cliLen) < 0) {
+    if((connFd = accept(listenFd, (sockaddr *) &cliAddr, &cliLen)) < 0) {
         cerr << "socket accept error" << endl;
     }
     return connFd;
@@ -49,16 +49,16 @@ bool TcpConn::closeListenSocket(int listenFd) {
     return true;
 }
 
-int TcpConn::tcpRecv(int connFd, int buf[]) {
+int TcpConn::tcpRecv(int connFd, char buf[]) {
     int recvRet;
-    if (recvRet = recv(connFd, buf, BUFMAXLEN, 0) < 0) {
+    if ((recvRet = recv(connFd, buf, BUFMAXLEN, 0)) < 0) {
         cerr << "recv error" << endl;
         return -1;
     }
     return recvRet;
 }
 
-int TcpConn::tcpSend(int connFd, int buf[]) {
+int TcpConn::tcpSend(int connFd, char buf[]) {
     int sendRet;
     if (sendRet = send(connFd, buf, BUFMAXLEN, 0) < 0) {
         cerr << "send error" << endl;
