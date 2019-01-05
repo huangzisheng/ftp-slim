@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 #include <mysqli/mysql.h>
 
 enum sqlOpt{
@@ -8,20 +9,20 @@ enum sqlOpt{
     MODIFY
 };
 
-class mySqlConn {
+class MySqlConn {
     public: 
         mySqlConn();
         ~mySqlConn();
 
-        int connect(String ip, String id, String pwd);
+        int connect();
         int disConnect();
-        int sqlQuery(String sqlStr);
+        int sqlQuery(string sqlStr, int sqlType);
         
     private:
         bool isConnet();
 
         bool isConnect;
-        String ip, id, pwd;
+        string ip, id, pwd;
         MYSQL myConn;
         MYSQL* res;
-}
+};

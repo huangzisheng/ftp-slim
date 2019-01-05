@@ -6,7 +6,7 @@
 #include <string>
 using namespace std;
 
-#define BUFMAXLEN 1024
+#define BUFMAXLEN 4096
 
 using namespace std;
 
@@ -20,13 +20,13 @@ class TcpConn {
 
         int createSocket();
         int tcpAccept(int listenFd);
-        int tcpRecv(int connFd, int buf[]);
-        int tcpSend(int connFd, int buf[]);
+        int tcpRecv(int connFd, char buf[]);
+        int tcpSend(int connFd, char buf[]);
         bool closeListenSocket(int listenFd);
     private : 
         string addr;
         int port;
 
         int listenFd, connFd;
-        int buf[BUFMAXLEN];
+        char buf[BUFMAXLEN];
 };
