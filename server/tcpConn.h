@@ -1,9 +1,11 @@
 #include <iostream>
 #include <sys/types.h>
 #include <sys/socket.h>
-#include <String>
+#include <unistd.h>
+#include <netinet/in.h>
+#include <string>
+using namespace std;
 
-#define SA (struct sockaddr_in)
 #define BUFMAXLEN 1024
 
 using namespace std;
@@ -11,20 +13,20 @@ using namespace std;
 
 class TcpConn {
     public:
-        TcpConn(String addr, int port) {
-            this.addr = addr;
-            this.port = port;
+        TcpConn(string addr, int port) {
+            this->addr = addr;
+            this->port = port;
         }
 
         int createSocket();
-        int tcpAccept();
+        int tcpAccept(int listenFd);
         int tcpRecv(int connFd, int buf[]);
-        int tcpSend();
-        bool closeListenSocket();
+        int tcpSend(int connFd, int buf[]);
+        bool closeListenSocket(int listenFd);
     private : 
-        String addr;
+        string addr;
         int port;
 
         int listenFd, connFd;
         int buf[BUFMAXLEN];
-}
+};
