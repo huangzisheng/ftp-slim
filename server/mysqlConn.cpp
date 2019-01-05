@@ -1,3 +1,0 @@
-#include "mySqlConn.h"
-
-int 
